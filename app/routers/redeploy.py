@@ -30,7 +30,7 @@ async def redeploy_container(data: RedeployContainerData):
         if (new_container.status == "exited"):
             prev_container.start()
             new_container.remove()
-            return
+            raise HTTPException(400, 'Docker container failed health check')
     
     prev_container.remove()
     return { "containerId": new_container.id }
