@@ -15,16 +15,21 @@ async def redeploy_container(data: RedeployContainerData):
     prev_container.stop()
 
     image_name = prev_container.image.tags[0].split(":")[0] # split tag and get new image
-    tag = f"{image_name}:{data.newTag}"
     image = daemon.images.pull(image_name, data.newTag)
     
-    # new_container = daemon.containers.run(image, detach=True) as Container
+    new_container = daemon.containers.run(image, detach=True,
+        ports=prev_container.ports)
 
     if (data.healthCheck):
         await sleep(data.healthcheckTimeout)
     
-        # new_container.
-
+        if (new_container.status == "exited"):
+            prev_container.start()
+            new_container.remove()
+            return
+    
+    prev_container.remove()
+        
 
 @router.post("/image")
 async def redeploy_image():
