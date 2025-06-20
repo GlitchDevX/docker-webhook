@@ -4,7 +4,7 @@ from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 
 
-router = APIRouter(prefix="/container")
+router = APIRouter(prefix="/container", tags=["Container Information"])
 
 @router.get("/active")
 async def active_containers():
