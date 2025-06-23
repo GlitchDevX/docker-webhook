@@ -8,6 +8,9 @@ router = APIRouter(prefix="/container", tags=["Container Information"])
 
 @router.get("/active")
 async def active_containers():
+    """
+    Returns a list of all active docker containers.
+    """
     daemon = docker.from_env()
 
     containers = daemon.containers.list()
@@ -15,18 +18,27 @@ async def active_containers():
 
 @router.get("/all")
 async def all_containers():
+    """
+    Returns all docker container including paused and exited ones.
+    """
     daemon = docker.from_env()
     containers = daemon.containers.list(True)
     return list(map(map_container, containers))
 
 @router.get("/stats")
 async def stats(containerId: str):
+    """
+    Returns statistics of the container with the given containerId.
+    """
     daemon = docker.from_env()
     container = daemon.containers.get(containerId)
     return container.stats(stream=False)
 
 @router.get("/logs")
 async def logs(containerId: str):
+    """
+    Starts a log stream of the container with the given containerId.
+    """
     daemon = docker.from_env()
     container = daemon.containers.get(containerId)
     return StreamingResponse(container.logs(stream=True))
