@@ -1,52 +1,26 @@
-from asyncio import sleep
-import docker
-from docker.errors import NotFound
 from fastapi import APIRouter, HTTPException
 
 from app.dto.requests.redeploy_container_data import RedeployContainerData
+from app.services.redeploy import redeploy_container
 
 
 router = APIRouter(prefix="/redeploy", tags=["Redeployment"])
 
 @router.post("/container")
-async def redeploy_container(data: RedeployContainerData):
+async def redeploy_container_route(data: RedeployContainerData):
     """
     Redeploys a given container by pulling a newer version of the containers image.
     Then stops the given container and starts a new container with the new image.
     \n\n
     The id of the newly created container will be returned."""
-    daemon = docker.from_env()
-
-    try:
-        prev_container = daemon.containers.get(data.containerId)
-    except NotFound:
-        raise HTTPException(404, "Docker container not found")
-
-    image_name = prev_container.image.tags[0].split(":")[0] # split tag and get new image
-    image = daemon.images.pull(image_name, data.newTag)
-    
-    prev_container.stop()
-
-    new_container = daemon.containers.run(image, detach=True, ports=prev_container.ports, environment=data.environment)
-
-    if (data.healthCheck):
-        await sleep(data.healthcheckTimeout)
-    
-        if (new_container.status == "exited"):
-            prev_container.start()
-            new_container.remove()
-            raise HTTPException(400, 'Docker container failed health check')
-    
-    prev_container.remove()
-    return { "containerId": new_container.id }
-        
+    return redeploy_container(data)
 
 @router.post("/image")
-async def redeploy_image():
+async def redeploy_image_route():
     """
     Redeploys every container that uses the image provided by pulling the given version of the image.
     Then stops the containers and starts new containers with the new image.
     \n\n
     The id of the newly created containers will be returned.
     """
-    pass
+    raise HTTPException(501, "Endpoint not implemented yet")
