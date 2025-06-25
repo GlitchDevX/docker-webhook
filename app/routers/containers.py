@@ -3,6 +3,8 @@ from docker.models.containers import Container
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 
+from app.services.containers import get_container_logs, get_container_stats, get_containers
+
 
 router = APIRouter(prefix="/container", tags=["Container Information"])
 
@@ -11,57 +13,34 @@ async def active_containers():
     """
     Returns a list of all active docker containers.
     """
-    daemon = docker.from_env()
-
-    containers = daemon.containers.list()
-    return list(map(map_container, containers))
+    return get_containers(False)
 
 @router.get("/all")
 async def all_containers():
     """
     Returns all docker container including paused and exited ones.
     """
-    daemon = docker.from_env()
-    containers = daemon.containers.list(True)
-    return list(map(map_container, containers))
+    return get_containers(True)
 
 @router.get("/stats")
 async def stats(containerId: str):
     """
     Returns statistics of the container with the given containerId.
     """
-    daemon = docker.from_env()
-    container = daemon.containers.get(containerId)
-    return container.stats(stream=False)
+    return get_container_stats(containerId)
 
 @router.get("/logs")
 async def logs(containerId: str):
     """
     Starts a log stream of the container with the given containerId.
     """
-    daemon = docker.from_env()
-    container = daemon.containers.get(containerId)
-    return StreamingResponse(container.logs(stream=True))
+    return get_container_logs(containerId, False)
 
-def map_container(container: Container):
-    # required for containers with missing images
-    try:
-        tags = list(filter(lambda x: x is not None, map(lambda t: split_tag(t)[1], container.image.tags)))
-        image = split_tag(container.image.tags[0])[0]
+@router.get("/log-stream")
+async def log_stream(containerId: str):
+    """
+    Starts a log stream of the container with the given containerId.
+    """
+    return get_container_logs(containerId, True)
 
-        return { 
-            "name": container.name,
-            "id": container.id,
-            "image": image,
-            "tags": tags,
-            "status": container.status,
-            "ports": container.ports,
-        }
-    except:
-        return None
-
-def split_tag(tag: str):
-    if ':' in tag:
-        return tag.split(':')
-    return [tag, None]
 
