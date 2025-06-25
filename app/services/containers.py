@@ -3,7 +3,7 @@ from docker.models.containers import Container
 from fastapi import HTTPException
 from fastapi.responses import StreamingResponse
 
-from app.utils.container_utils import try_get_container
+from app.common.container_utils import try_get_container
 
 def get_containers(all: bool):
     daemon = docker.from_env()
@@ -28,7 +28,7 @@ def get_container_logs(container_id: str, stream: bool):
         return StreamingResponse(container.logs(stream=True))
     else:
         logs = container.logs(stream=False)
-        return str(logs).split("\\n")
+        return logs.decode("utf-8").split("\n")
 
 def map_container(container: Container):
     if container.image is None:
