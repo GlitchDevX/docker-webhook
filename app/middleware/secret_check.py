@@ -5,6 +5,8 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware, DispatchFunction, RequestResponseEndpoint
 from starlette.responses import Response
 
+whitelisted_routes = ["/docs", "/openapi.json"]
+
 class SecretCheck(BaseHTTPMiddleware):
     def __init__(self, app: Callable[[MutableMapping[str, Any], Callable[[], Awaitable[MutableMapping[str, Any]]], Callable[[MutableMapping[str, Any]], Awaitable[None]]], Awaitable[None]], dispatch: Callable[[Request, Callable[[Request], Awaitable[Response]]], Awaitable[Response]] | None = None) -> None:
         super().__init__(app, dispatch)
@@ -16,6 +18,10 @@ class SecretCheck(BaseHTTPMiddleware):
         return await call_next(request)
 
     def _verifiy_secret(self, request: Request):
+        for route in whitelisted_routes:
+            if request.url.path.startswith(route):
+                return True
+
         received_secret = request.headers.get("X-Api-Secret")
         if received_secret is None or received_secret != self.secret:
             return False
