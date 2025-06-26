@@ -1,7 +1,8 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 
 from app.dto.requests.redeploy_container_data import RedeployContainerData
-from app.services.redeploy import redeploy_container
+from app.dto.requests.redeploy_image_data import RedepoyImageData
+from app.services.redeploy import redeploy_container, redeploy_image
 
 
 router = APIRouter(prefix="/redeploy", tags=["Redeployment"])
@@ -16,11 +17,11 @@ async def redeploy_container_route(data: RedeployContainerData):
     return redeploy_container(data)
 
 @router.post("/image")
-async def redeploy_image_route():
+async def redeploy_image_route(data: RedepoyImageData):
     """
     Redeploys every container that uses the image provided by pulling the given version of the image.
     Then stops the containers and starts new containers with the new image.
     \n\n
     The id of the newly created containers will be returned.
     """
-    raise HTTPException(501, "Endpoint not implemented yet")
+    return redeploy_image(data)
