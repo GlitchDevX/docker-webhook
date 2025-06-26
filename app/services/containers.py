@@ -1,9 +1,8 @@
 import docker
 from docker.models.containers import Container
-from fastapi import HTTPException
 from fastapi.responses import StreamingResponse
 
-from app.common.container_utils import try_get_container
+from app.common.container_utils import split_tag, try_get_container
 
 def get_containers(all: bool):
     daemon = docker.from_env()
@@ -45,8 +44,3 @@ def map_container(container: Container):
         "status": container.status,
         "ports": container.ports,
     }
-
-def split_tag(tag: str):
-    if ':' in tag:
-        return tag.split(':')
-    return [tag, None]
