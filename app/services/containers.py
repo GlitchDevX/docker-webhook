@@ -6,8 +6,8 @@ from app.common.container_utils import split_tag, try_get_container
 
 def get_containers(all: bool):
     daemon = docker.from_env()
-
     containers = daemon.containers.list(all)
+
     mapped_containers = map(map_container, containers)
     filtered_containers = filter(lambda x: x is not None, mapped_containers)
 

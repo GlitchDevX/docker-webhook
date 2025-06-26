@@ -36,7 +36,6 @@ async def redeploy_container(data: RedeployContainerData):
 
 async def redeploy_image(data: RedepoyImageData):
     daemon = docker.from_env()
-    print("function called")
 
     all_containers: list[Container] = daemon.containers.list()
     containers: list[Container] = []
