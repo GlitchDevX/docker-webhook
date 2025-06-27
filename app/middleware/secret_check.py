@@ -2,7 +2,7 @@ import os
 from typing import Any, Awaitable, Callable, MutableMapping
 from fastapi import Request
 from fastapi.responses import JSONResponse
-from starlette.middleware.base import BaseHTTPMiddleware, DispatchFunction, RequestResponseEndpoint
+from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 
 whitelisted_routes = ["/docs", "/openapi.json"]
