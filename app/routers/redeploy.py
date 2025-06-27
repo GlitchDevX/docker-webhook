@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from app.dto.requests.redeploy_container_data import RedeployContainerData
-from app.dto.requests.redeploy_image_data import RedepoyImageData
+from app.dto.requests.redeploy_image_data import RedeployImageData
 from app.services.redeploy import redeploy_container, redeploy_image
 
 
@@ -14,14 +14,14 @@ async def redeploy_container_route(data: RedeployContainerData):
     Then stops the given container and starts a new container with the new image.
     \n\n
     The id of the newly created container will be returned."""
-    return redeploy_container(data)
+    return await redeploy_container(data)
 
 @router.post("/image")
-async def redeploy_image_route(data: RedepoyImageData):
+async def redeploy_image_route(data: RedeployImageData):
     """
     Redeploys every container that uses the image provided by pulling the given version of the image.
     Then stops the containers and starts new containers with the new image.
     \n\n
     The id of the newly created containers will be returned.
     """
-    return redeploy_image(data)
+    return await redeploy_image(data)

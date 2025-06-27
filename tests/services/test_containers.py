@@ -11,11 +11,11 @@ mock_container.image.tags = ["test:1.12.4", "test:latest"]
 mock_container.name = "someContainer"
 mock_container.id = "someContainerId"
 mock_container.status = "doomed"
-mock_container.ports = "deine:mutter"
+mock_container.ports = "some:port"
 mock_container.logs.return_value = b'Hello World!'
 mock_container.stats.return_value = {"some": "stats"}
 
-mapped_mock_container = [{'id': 'someContainerId', 'image': 'test', 'tags': ['1.12.4', 'latest'], 'name': 'someContainer', 'ports': 'deine:mutter', 'status': 'doomed'}]
+mapped_mock_container = [{'id': 'someContainerId', 'image': 'test', 'tags': ['1.12.4', 'latest'], 'name': 'someContainer', 'ports': 'some:port', 'status': 'doomed'}]
 
 def test_get_containers():
     list_response_mock = MagicMock(return_value=[mock_container])
