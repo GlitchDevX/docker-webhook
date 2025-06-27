@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 from app.dto.requests.redeploy_container_data import RedeployContainerData
 from app.common.container_utils import split_tag, try_get_container
 from app.common.exceptions import container_healthcheck_failed, container_healthchecks_failed, container_not_found, no_container_with_img_found
-from app.dto.requests.redeploy_image_data import RedepoyImageData
+from app.dto.requests.redeploy_image_data import RedeployImageData
 
 
 async def redeploy_container(data: RedeployContainerData):
@@ -34,7 +34,7 @@ async def redeploy_container(data: RedeployContainerData):
     prev_container.remove()
     return { "containerId": new_container.id }
 
-async def redeploy_image(data: RedepoyImageData):
+async def redeploy_image(data: RedeployImageData):
     daemon = docker.from_env()
 
     all_containers: list[Container] = daemon.containers.list()
@@ -52,12 +52,13 @@ async def redeploy_image(data: RedepoyImageData):
             raise no_container_with_img_found(data.imageName)
         return _start_new_container(daemon, data.imageName, data.newTag, data.environment)
     
-    img = daemon.images.pull(data.imageName, data.newTag)
+    full_tag = f"{data.imageName}:{data.newTag}"
+    daemon.images.pull(full_tag)
 
     new_containers: list[Container] = []
     for container in containers:
         container.stop()
-        new_containers.append(daemon.containers.run(img, detach=True, ports=container.ports, environment=data.environment))
+        new_containers.append(daemon.containers.run(full_tag, detach=True, ports=container.ports, environment=data.environment))
 
     healthchecks_failed = 0
     failed_logs = ""
@@ -77,8 +78,8 @@ async def redeploy_image(data: RedepoyImageData):
 
     return { "containerIds": list(map(lambda c: c.id, new_containers)) }
 
-
 def _start_new_container(daemon: docker.DockerClient, img_name: str, tag: str, env: list[str]):
-    img = daemon.images.pull(img_name, tag)
-    container = daemon.containers.run(img, environment=env, detach=True)
+    full_tag = f"{img_name}:{tag}"
+    daemon.images.pull(full_tag)
+    container = daemon.containers.run(full_tag, environment=env, detach=True)
     return JSONResponse({"containerId": container.id}, status_code=201)
