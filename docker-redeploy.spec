@@ -1,5 +1,11 @@
 # -*- mode: python ; coding: utf-8 -*-
+import sys
 
+from PyInstaller.building.api import EXE, PYZ
+from PyInstaller.building.build_main import Analysis
+from PyInstaller.building.osx import BUNDLE
+
+block_cipher = None
 
 a = Analysis(
     ['main.py'],
@@ -8,13 +14,15 @@ a = Analysis(
     datas=[],
     hiddenimports=[],
     hookspath=[],
-    hooksconfig={},
     runtime_hooks=[],
     excludes=[],
-    noarchive=False,
-    optimize=0,
+    win_no_prefer_redirects=False,
+    win_private_assemblies=False,
+    cipher=block_cipher,
+    noarchive=False
 )
-pyz = PYZ(a.pure)
+
+pyz = PYZ(a.pure, cipher=block_cipher)
 
 exe = EXE(
     pyz,
@@ -22,7 +30,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='main',
+    name='docker-redeploy',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

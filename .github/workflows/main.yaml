@@ -48,7 +48,7 @@ jobs:
         run: uv run pytest
 
       - name: Build binary
-        run: uv run pyinstaller -F main.py --clean
+        run: uv run pyinstaller -F ./docker-redeploy.spec
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
@@ -56,4 +56,4 @@ jobs:
           tag_name: ${{ needs.get-version-tag.outputs.tag }}
           append_body: true
           files: |
-            dist/main
+            dist/docker-redeploy
