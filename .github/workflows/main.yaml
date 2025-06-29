@@ -26,8 +26,9 @@ jobs:
         run: |
           echo ${{ steps.tag.outputs.new_tag }}
 
-  build:
+  build-and-release:
     runs-on: ubuntu-latest
+    needs: get-version-tag
     steps:
       - name: Get latest code
         uses: actions/checkout@v4
@@ -54,28 +55,10 @@ jobs:
         with:
           name: docker-webhook
           path: dist/main
-  
-  # release:
-  #   runs-on: ubuntu-latest
-  #   needs: [get-version-tag, build]
-  #   steps:
-  #     - name: Get latest code
-  #       uses: actions/checkout@v4
 
-  #     - name: Create Release
-  #       uses: softprops/action-gh-release@v2
-  #       with:
-  #         tag_name: ${{ needs.get-version-tag.outputs.tag }}
-  #         append_body: true
-  #         body: |
-  #           ## Images on Dockerhub
-
-  #           ### [Backend](https://hub.docker.com/repository/docker/glitchdevx/custos/general)
-  #           ```bash
-  #           docker pull glitchdevx/custos:${{ needs.get-version-tag.outputs.tag }}
-  #           ```
-
-  #           ### [Frontend](https://hub.docker.com/repository/docker/glitchdevx/custos-ui/general)
-  #           ```bash
-  #           docker pull glitchdevx/custos-ui:${{ needs.get-version-tag.outputs.tag }}
-  #           ```
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.get-version-tag.outputs.tag }}
+          append_body: true
+          files: docker-webhook      
