@@ -55,4 +55,4 @@ jobs:
         with:
           tag_name: ${{ needs.get-version-tag.outputs.tag }}
           append_body: true
-          files: dist/docker-webhook      
+          files: ./dist/docker-webhook
