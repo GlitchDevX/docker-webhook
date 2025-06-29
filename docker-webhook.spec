@@ -30,7 +30,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='docker-redeploy',
+    name='docker-webhook',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
