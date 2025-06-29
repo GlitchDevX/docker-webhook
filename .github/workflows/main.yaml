@@ -50,15 +50,9 @@ jobs:
       - name: Build binary
         run: uv run pyinstaller -F main.py --clean
 
-      - name: Upload binary
-        uses: actions/upload-artifact@v4
-        with:
-          name: docker-webhook
-          path: dist/main
-
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.get-version-tag.outputs.tag }}
           append_body: true
-          files: docker-webhook      
+          files: dist/docker-webhook      
