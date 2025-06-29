@@ -58,7 +58,8 @@ async def redeploy_image(data: RedeployImageData):
     new_containers: list[Container] = []
     for container in containers:
         container.stop()
-        new_containers.append(daemon.containers.run(full_tag, detach=True, ports=container.ports, environment=data.environment))
+        new_container = daemon.containers.run(full_tag, detach=True, ports=container.ports, environment=data.environment)
+        new_containers.append(new_container)
 
     healthchecks_failed = 0
     failed_logs = ""
