@@ -4,6 +4,20 @@ This project allows you to interact with docker on your server without having ss
 
 This could be beneficial in an ci/cd pipeline when you don't want to share a private key.
 
+## Usage
+
+Download the binary on your server and execute it with the api secret in an env variable.
+
+```bash
+# download the latest binary
+wget https://github.com/GlitchDevX/docker-webhook/releases/latest/download/docker-webhook
+
+# export env var
+export API_SECRET=your-secure-secret
+
+# run the application
+./docker-webhook
+```
 
 ## Local Development
 
