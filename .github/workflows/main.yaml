@@ -1,0 +1,79 @@
+name: Build Binaries
+on: 
+  push:
+    branches: [master]
+
+jobs:
+  get-version-tag:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.tag.outputs.new_tag }}
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v4
+
+      - name: Bump version and push tag
+        id: tag
+        uses: anothrNick/github-tag-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          PRERELEASE: true
+      
+      - name: Echo Tag to output
+        run: |
+          echo ${{ steps.tag.outputs.new_tag }}
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v4
+      
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v6
+        
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+
+      - name: Install dependencies
+        run: uv sync
+      
+      - name: Execute tests
+        run: uv run pytest
+
+      - name: Build binary
+        run: uv run pyinstaller -F main.py --clean
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-webhook.exe
+          path: dist/main.exe
+  
+  # release:
+  #   runs-on: ubuntu-latest
+  #   needs: [get-version-tag, build]
+  #   steps:
+  #     - name: Get latest code
+  #       uses: actions/checkout@v4
+
+  #     - name: Create Release
+  #       uses: softprops/action-gh-release@v2
+  #       with:
+  #         tag_name: ${{ needs.get-version-tag.outputs.tag }}
+  #         append_body: true
+  #         body: |
+  #           ## Images on Dockerhub
+
+  #           ### [Backend](https://hub.docker.com/repository/docker/glitchdevx/custos/general)
+  #           ```bash
+  #           docker pull glitchdevx/custos:${{ needs.get-version-tag.outputs.tag }}
+  #           ```
+
+  #           ### [Frontend](https://hub.docker.com/repository/docker/glitchdevx/custos-ui/general)
+  #           ```bash
+  #           docker pull glitchdevx/custos-ui:${{ needs.get-version-tag.outputs.tag }}
+  #           ```
