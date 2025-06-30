@@ -95,20 +95,11 @@ jobs:
           echo "\n---\n"
           ls build-results
 
-      - name: Create release
-        uses: ncipollo/release-action@v1
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
         with:
-          tag: ${{ needs.get-version-tag.outputs.tag }}
-          body: "# ${{ needs.get-version-tag.outputs.tag }}"
-          artifacts: "build-results/**"
-
-      # - name: Create Release
-      #   uses: softprops/action-gh-release@v2
-      #   with:
-      #     tag_name: ${{ needs.get-version-tag.outputs.tag }}
-      #     append_body: true
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     files: |
-      #       build-results/docker-webhook-${{ needs.get-version-tag.outputs.tag }}-*
-      #       build-results/docker-webhook-*
-      #       build-results/**
+          tag_name: ${{ needs.get-version-tag.outputs.tag }}
+          append_body: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            build-results/docker-webhook-*
