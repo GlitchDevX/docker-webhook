@@ -100,3 +100,4 @@ jobs:
           files: |
             build-results/docker-webhook-${{ needs.get-version-tag.outputs.tag }}-*
             docker-webhook-${{ needs.get-version-tag.outputs.tag }}-*
+            build-results/-**
