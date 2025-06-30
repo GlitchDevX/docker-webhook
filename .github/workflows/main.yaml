@@ -102,4 +102,4 @@ jobs:
           append_body: true
           token: ${{ secrets.GITHUB_TOKEN }}
           files: |
-            build-results/docker-webhook-*
+            build-results/**
