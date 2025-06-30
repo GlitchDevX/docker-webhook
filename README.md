@@ -9,8 +9,8 @@ This could be beneficial in an ci/cd pipeline when you don't want to share a pri
 Download the binary on your server and execute it with the api secret in an env variable.
 
 ```bash
-# download the latest binary
-wget https://github.com/GlitchDevX/docker-webhook/releases/latest/download/docker-webhook
+# download the latest linux binary
+curl -s https://api.github.com/repos/glitchdevx/docker-webhook/releases/latest | grep -w "browser_download_url" | grep -e "ubuntu" | sed -E 's/.*: "(.*)"/\1/' | xargs wget
 
 # export env var
 export API_SECRET=your-secure-secret
