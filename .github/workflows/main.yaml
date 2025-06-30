@@ -86,6 +86,12 @@ jobs:
           pattern: docker-webhook-${{ needs.get-version-tag.outputs.tag }}-*
           path: build-results
 
+      - name: Check dir entries
+        run: |
+          ls
+          echo "\n---\n"
+          ls build-results
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
