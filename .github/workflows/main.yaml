@@ -26,9 +26,8 @@ jobs:
         run: |
           echo ${{ steps.tag.outputs.new_tag }}
 
-  build-and-release:
+  test:
     runs-on: ubuntu-latest
-    needs: get-version-tag
     steps:
       - name: Get latest code
         uses: actions/checkout@v4
@@ -47,13 +46,49 @@ jobs:
       - name: Execute tests
         run: uv run pytest
 
+  build-all:
+    runs-on: ubuntu-latest
+    needs: [get-version-tag, test]
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v4
+      
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v6
+        
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+
+      - name: Install dependencies
+        run: uv sync
+      
       - name: Build binary
         run: uv run pyinstaller ./docker-webhook.spec
+  
+      - name: Upload build result
+        uses: actions/upload-artifact@v4
+        with:
+          path: dist/docker-webhook
+          name: docker-webhook-${{ needs.get-version-tag.outputs.tag }}-${{ matrix.platform }}
+
+  release:
+    runs-on: ubuntu-latest
+    needs: [build-all, get-version-tag]
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: docker-webhook-${{ needs.get-version-tag.outputs.tag }}-*
+          path: build-results
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.get-version-tag.outputs.tag }}
           append_body: true
-          files: |
-            dist/docker-webhook
+          files: build-results/*
