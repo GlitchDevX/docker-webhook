@@ -99,5 +99,5 @@ jobs:
           append_body: true
           files: |
             build-results/docker-webhook-${{ needs.get-version-tag.outputs.tag }}-*
-            docker-webhook-${{ needs.get-version-tag.outputs.tag }}-*
-            build-results/-**
+            build-results/docker-webhook-*
+            build-results/**
