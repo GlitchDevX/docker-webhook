@@ -1,3 +1,4 @@
+from app.common.logging import app_logger
 import os
 from typing import Any, Awaitable, Callable, MutableMapping
 from fastapi import Request
@@ -30,5 +31,5 @@ class SecretCheck(BaseHTTPMiddleware):
     def _get_secret(self):
         self.secret = os.environ.get("API_SECRET")
         if self.secret is None:
-            print("No secret found in environment variable 'API_SECRET', will use 'ADD_PASSWORD_BEFORE_PRODUCTION'")
             self.secret = "ADD_PASSWORD_BEFORE_PRODUCTION"
+            app_logger.warning("No secret found in environment variable 'API_SECRET', will use 'ADD_PASSWORD_BEFORE_PRODUCTION'")
