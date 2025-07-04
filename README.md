@@ -6,17 +6,42 @@ This could be beneficial in an ci/cd pipeline when you don't want to share a pri
 
 ## Usage
 
+### Precompiled Binaries
+
 Download the binary on your server and execute it with the api secret in an env variable.
 
 ```bash
 # download the latest linux binary
 curl -s https://api.github.com/repos/glitchdevx/docker-webhook/releases/latest | grep -w "browser_download_url" | grep -e "ubuntu" | sed -E 's/.*: "(.*)"/\1/' | xargs wget
 
-# export env var
+# set secret in env var
 export API_SECRET=your-secure-secret
 
 # run the application
 ./docker-webhook
+```
+
+### From source code
+
+You'll need to have `git`, `python` & `uv` installed to run this project from source code.
+
+- [Git Download](https://git-scm.com/downloads)
+- [Python 3.11 Download](https://www.python.org/downloads/)
+- [uv Download](https://docs.astral.sh/uv/getting-started/installation/)
+
+
+```bash
+# clone the repository
+git clone https://github.com/glitchdevx/docker-webhook.git && cd docker-webhook
+
+# install dependencies
+uv sync
+
+# set secret in env var
+export API_SECRET=your-secure-secret
+
+# run code
+uv run main.py
 ```
 
 ## Local Development
