@@ -32,7 +32,6 @@ exe = EXE(
     [],
     name='docker-webhook',
     debug=False,
-    binaries=[('/usr/lib/x86_64-linux-gnu/libm.so.6', '.')],
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
