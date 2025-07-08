@@ -12,7 +12,8 @@ Download the binary on your server and execute it with the api secret in an env 
 
 ```bash
 # download the latest linux binary
-curl -s https://api.github.com/repos/glitchdevx/docker-webhook/releases/latest | grep -w "browser_download_url" | grep -e "ubuntu" | sed -E 's/.*: "(.*)"/\1/' | xargs wget
+platform="x64-ubuntu-24.04" # or arm-ubuntu-22.04
+curl -s https://api.github.com/repos/glitchdevx/docker-webhook/releases/latest | grep -w "browser_download_url" | grep -e "$platform" | sed -E 's/.*: "(.*)"/\1/' | xargs wget
 
 # set secret in env var
 export API_SECRET=your-secure-secret

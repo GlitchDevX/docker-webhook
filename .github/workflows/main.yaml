@@ -51,7 +51,19 @@ jobs:
     needs: [get-version-tag, test]
     strategy:
       matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, ubuntu-24.04-arm, ubuntu-22.04-arm, windows-latest, macos-latest]
+        include: 
+          - platform: ubuntu-24.04
+            name: x64-ubuntu-24.04
+          - platform: ubuntu-22.04
+            name: x64-ubuntu-22.04
+          - platform: ubuntu-24.04-arm
+            name: arm-ubuntu-24.04-arm
+          - platform: ubuntu-22.04
+            name: arm-ubuntu-22.04-arm
+          - platform: windows-latest
+            name: x64-windows-latest
+          - platform: macos-latest
+            name: x64-macos-latest
     steps:
       - name: Get latest code
         uses: actions/checkout@v4
@@ -71,13 +83,13 @@ jobs:
         run: uv run pyinstaller ./docker-webhook.spec
   
       - name: Rename binary
-        run: mv dist/docker-webhook dist/docker-webhook-${{ needs.get-version-tag.outputs.tag }}-${{ matrix.platform }}
+        run: mv dist/docker-webhook dist/docker-webhook-${{ needs.get-version-tag.outputs.tag }}-${{ matrix.name }}
 
       - name: Upload build result
         uses: actions/upload-artifact@v4
         with:
           path: dist/docker-webhook-*
-          name: docker-webhook-${{ needs.get-version-tag.outputs.tag }}-${{ matrix.platform }}
+          name: docker-webhook-${{ needs.get-version-tag.outputs.tag }}-${{ matrix.name }}
 
   release:
     runs-on: ubuntu-latest
