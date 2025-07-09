@@ -57,9 +57,9 @@ jobs:
           - platform: ubuntu-22.04
             name: ubuntu-x64-22.04
           - platform: ubuntu-24.04-arm
-            name: ubuntu-arm-24.04-arm
-          - platform: ubuntu-22.04
-            name: ubuntu-arm-22.04-armInside the docker context (using the parameter) it still gets stuck at the transforming step. Am I missing something?
+            name: ubuntu-arm-24.04
+          - platform: ubuntu-22.04-arm
+            name: ubuntu-arm-22.04
           - platform: windows-latest
             name: windows-x64-latest
           - platform: macos-latest
