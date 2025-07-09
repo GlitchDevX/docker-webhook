@@ -79,6 +79,12 @@ jobs:
       - name: Install dependencies
         run: uv sync
       
+      - name: Set version in pyproject
+        run: sed 's/<version>/${{ needs.get-version-tag.outputs }}/g' pyproject.toml
+
+      - name: Print pyproject
+        run: cat pyproject.toml
+
       - name: Build binary
         run: uv run pyinstaller ./docker-webhook.spec
   
