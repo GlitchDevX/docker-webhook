@@ -1,8 +1,11 @@
 [project]
-name = "docker-redeploy-webhook"
-version = "0.1.0"
-description = "Add your description here"
+name = "docker-webhook"
+version = "<version>"
+description = "A webhook to allow interaction with docker on a remote server without ssh access."
 readme = "README.md"
+authors = [
+    { name = "GlitchDevX", email = "jonas.ringeis@gmail.com" }
+]
 requires-python = ">=3.11"
 dependencies = [
     "docker>=7.1.0",
@@ -10,3 +13,6 @@ dependencies = [
     "pyinstaller>=6.14.1",
     "pytest>=8.4.1",
 ]
+
+[project.urls]
+Repository = "https://github.com/glitchdevx/docker-webhook"
