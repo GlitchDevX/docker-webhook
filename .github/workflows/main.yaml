@@ -80,7 +80,7 @@ jobs:
         run: uv sync
       
       - name: Set version in pyproject
-        run: sed -i 's/-version-/${{ needs.get-version-tag.outputs }}/g' pyproject.toml
+        run: sed -i 's/version = "1.0.0"/version = "${{ needs.get-version-tag.outputs.tag }}"/g' pyproject.toml
 
       - name: Print pyproject
         run: cat pyproject.toml
