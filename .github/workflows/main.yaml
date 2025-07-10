@@ -66,8 +66,10 @@ jobs:
             name: windows-server-2022
           - platform: macos-15
             name: macos-15-arm64
-          - platform: macos-15-large
-            name: macos-15-x64
+          - platform: macos-14
+            name: macos-14-arm64
+          - platform: macos-13
+            name: macos-13-x64
     steps:
       - name: Get latest code
         uses: actions/checkout@v4
