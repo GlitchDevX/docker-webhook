@@ -100,7 +100,7 @@ jobs:
         run: uv run pyinstaller ./docker-webhook.spec
   
       - name: Rename binary (windows)
-        run: move dist/docker-webhook dist/docker-webhook-${{ needs.get-version-tag.outputs.tag }}-${{ matrix.name }}
+        run: move dist/docker-webhook.exe dist/docker-webhook-${{ needs.get-version-tag.outputs.tag }}-${{ matrix.name }}
         if: ${{ contains(matrix.platform, 'windows') }}
 
       - name: Rename binary
