@@ -46,8 +46,8 @@ jobs:
       - name: Execute tests
         run: uv run pytest
 
-  build-all:
-    runs-on: ubuntu-latest
+  build-binaries:
+    runs-on: ${{ matrix.platform }}
     needs: [get-version-tag, test]
     strategy:
       matrix:
