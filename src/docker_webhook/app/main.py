@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from app.middleware.cors import Cors
-from app.middleware.secret_check import SecretCheck
+from src.docker_webhook.app.middleware.cors import Cors
+from src.docker_webhook.app.middleware.secret_check import SecretCheck
 from .routers import containers, redeploy
 
 app = FastAPI()

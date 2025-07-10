@@ -1,6 +1,6 @@
 import docker
 
-from app.common.exceptions import container_not_found
+from src.docker_webhook.app.common.exceptions import container_not_found
 
 def try_get_container(daemon: docker.DockerClient, container_id: str):
     try:

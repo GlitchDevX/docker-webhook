@@ -2,10 +2,10 @@ from asyncio import sleep
 import docker
 from docker.models.containers import Container
 from fastapi.responses import JSONResponse
-from app.dto.requests.redeploy_container_data import RedeployContainerData
-from app.common.container_utils import split_tag, try_get_container
-from app.common.exceptions import container_healthcheck_failed, container_healthchecks_failed, container_not_found, no_container_with_img_found
-from app.dto.requests.redeploy_image_data import RedeployImageData
+from src.docker_webhook.app.dto.requests.redeploy_container_data import RedeployContainerData
+from src.docker_webhook.app.common.container_utils import split_tag, try_get_container
+from src.docker_webhook.app.common.exceptions import container_healthcheck_failed, container_healthchecks_failed, container_not_found, no_container_with_img_found
+from src.docker_webhook.app.dto.requests.redeploy_image_data import RedeployImageData
 
 
 async def redeploy_container(data: RedeployContainerData):
