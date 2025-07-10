@@ -12,7 +12,7 @@ Download the binary on your server and execute it with the api secret in an env 
 
 ```bash
 # download the latest linux binary
-platform="x64-ubuntu-24.04" # or arm-ubuntu-22.04
+platform="ubuntu-24.04-x64" # or ubuntu-22.04-arm64
 curl -s https://api.github.com/repos/glitchdevx/docker-webhook/releases/latest | grep -w "browser_download_url" | grep -e "$platform" | sed -E 's/.*: "(.*)"/\1/' | xargs wget
 
 # set secret in env var
@@ -42,7 +42,7 @@ uv sync
 export API_SECRET=your-secure-secret
 
 # run code
-uv run main.py
+uv run docker-webhook
 ```
 
 ## Local Development
