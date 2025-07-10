@@ -1,4 +1,4 @@
-from app.common.logging import app_logger
+from src.docker_webhook.app.common.logging import app_logger
 import os
 from typing import Any, Awaitable, Callable, MutableMapping
 from fastapi import Request

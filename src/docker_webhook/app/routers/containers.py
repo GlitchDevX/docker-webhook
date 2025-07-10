@@ -3,7 +3,7 @@ from docker.models.containers import Container
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 
-from app.services.containers import get_container_logs, get_container_stats, get_containers
+from src.docker_webhook.app.services.containers import get_container_logs, get_container_stats, get_containers
 
 
 router = APIRouter(prefix="/container", tags=["Container Information"])
