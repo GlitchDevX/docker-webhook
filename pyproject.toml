@@ -1,6 +1,6 @@
 [project]
 name = "docker-webhook"
-version = "1.0.1"
+version = "1.0.0" # needs to stay at 1.0.0 for replace to work
 description = "A webhook to allow interaction with docker on a remote server without ssh access."
 readme = "README.md"
 authors = [
