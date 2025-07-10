@@ -99,8 +99,13 @@ jobs:
       - name: Build binary
         run: uv run pyinstaller ./docker-webhook.spec
   
+      - name: Rename binary (windows)
+        run: move dist/docker-webhook dist/docker-webhook-${{ needs.get-version-tag.outputs.tag }}-${{ matrix.name }}
+        if: ${{ contains(matrix.platform, 'windows') }}
+
       - name: Rename binary
         run: mv dist/docker-webhook dist/docker-webhook-${{ needs.get-version-tag.outputs.tag }}-${{ matrix.name }}
+        if: ${{ !contains(matrix.platform, 'windows') }}
 
       - name: Upload build result
         uses: actions/upload-artifact@v4
