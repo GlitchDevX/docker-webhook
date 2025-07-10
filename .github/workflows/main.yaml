@@ -53,21 +53,21 @@ jobs:
       matrix:
         include: 
           - platform: ubuntu-24.04
-            name: ubuntu-x64-24.04
+            name: ubuntu-24.04-x64
           - platform: ubuntu-22.04
-            name: ubuntu-x64-22.04
+            name: ubuntu-22.04-x64
           - platform: ubuntu-24.04-arm
-            name: ubuntu-arm64-24.04
+            name: ubuntu-24.04-arm64
           - platform: ubuntu-22.04-arm
-            name: ubuntu-arm64-22.04
+            name: ubuntu-22.04-arm64
           - platform: windows-2025
             name: windows-server-2025
           - platform: windows-2022
             name: windows-server-2022
-          - platform: macos-latest
-            name: macos-arm64-latest
+          - platform: macos-15
+            name: macos-15-arm64
           - platform: macos-15-large
-            name: macos-x64-15
+            name: macos-15-x64
     steps:
       - name: Get latest code
         uses: actions/checkout@v4
