@@ -86,11 +86,11 @@ jobs:
         run: uv sync
       
       - name: Set version in pyproject (macos)
-        run: gsed -i 's/version = "1.0.0"/version = "${{ needs.get-version-tag.outputs.tag }}"/g' pyproject.toml
+        run: sed -i '' -e 's/version = "1.0.0"/version = "${{ needs.get-version-tag.outputs.tag }}"/g' pyproject.toml
         if: ${{ contains(matrix.platform, 'macos') }}
       
       - name: Set version in pyproject
-        run: sed -i 's/version = "1.0.0"/version = "${{ needs.get-version-tag.outputs.tag }}"/g' pyproject.toml
+        run: sed -i -e 's/version = "1.0.0"/version = "${{ needs.get-version-tag.outputs.tag }}"/g' pyproject.toml
         if: ${{ !contains(matrix.platform, 'macos') }}
 
       - name: Print pyproject
