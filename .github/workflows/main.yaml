@@ -101,9 +101,42 @@ jobs:
           path: dist/docker-webhook-*
           name: docker-webhook-${{ needs.get-version-tag.outputs.tag }}-${{ matrix.name }}
 
+  build-wheel:
+    runs-on: ubuntu-latest
+    needs: [get-version-tag, test]
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v4
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v6
+        
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+
+      - name: Install dependencies
+        run: uv sync
+      
+      - name: Set version in pyproject
+        run: sed -i 's/version = "1.0.0"/version = "${{ needs.get-version-tag.outputs.tag }}"/g' pyproject.toml
+
+      - name: Build python wheel
+        run: uv build
+
+      - name: Rename python wheel
+        run: mv dist/docker_webhook-*.whl dist/docker-webhook-${{ needs.get-version-tag.outputs.tag }}-wheel-py3.whl
+
+      - name: Upload python wheel
+        uses: actions/upload-artifact@v4
+        with:
+          path: dist/docker-webhook-*
+          name: docker-webhook-${{ needs.get-version-tag.outputs.tag }}-py3-none-any.whl
+
   release:
     runs-on: ubuntu-latest
-    needs: [build-all, get-version-tag]
+    needs: [build-binaries, get-version-tag]
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
