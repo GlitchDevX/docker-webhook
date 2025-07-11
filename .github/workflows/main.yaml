@@ -109,7 +109,7 @@ jobs:
       - name: Upload build result
         uses: actions/upload-artifact@v4
         with:
-          path: dist/docker-webhook-*
+          path: dist/docker_webhook-*
           name: docker_webhook-${{ needs.get-version-tag.outputs.tag }}-${{ matrix.name }}
 
   build-wheel:
