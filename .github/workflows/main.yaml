@@ -100,18 +100,18 @@ jobs:
         run: uv run pyinstaller ./docker-webhook.spec
   
       - name: Rename binary (windows)
-        run: move dist/docker-webhook.exe dist/docker-webhook-${{ needs.get-version-tag.outputs.tag }}-${{ matrix.name }}
+        run: move dist/docker-webhook.exe dist/docker_webhook-${{ needs.get-version-tag.outputs.tag }}-${{ matrix.name }}
         if: ${{ contains(matrix.platform, 'windows') }}
 
       - name: Rename binary
-        run: mv dist/docker-webhook dist/docker-webhook-${{ needs.get-version-tag.outputs.tag }}-${{ matrix.name }}
+        run: mv dist/docker-webhook dist/docker_webhook-${{ needs.get-version-tag.outputs.tag }}-${{ matrix.name }}
         if: ${{ !contains(matrix.platform, 'windows') }}
 
       - name: Upload build result
         uses: actions/upload-artifact@v4
         with:
           path: dist/docker-webhook-*
-          name: docker-webhook-${{ needs.get-version-tag.outputs.tag }}-${{ matrix.name }}
+          name: docker_webhook-${{ needs.get-version-tag.outputs.tag }}-${{ matrix.name }}
 
   build-wheel:
     runs-on: ubuntu-latest
@@ -137,14 +137,11 @@ jobs:
       - name: Build python wheel
         run: uv build
 
-      - name: Rename python wheel
-        run: mv dist/docker_webhook-*.whl dist/docker-webhook-${{ needs.get-version-tag.outputs.tag }}-wheel-py3.whl
-
       - name: Upload python wheel
         uses: actions/upload-artifact@v4
         with:
-          path: dist/docker-webhook-*
-          name: docker-webhook-${{ needs.get-version-tag.outputs.tag }}-py3-none-any.whl
+          path: dist/docker_webhook-*
+          name: docker_webhook-${{ needs.get-version-tag.outputs.tag }}-py3-none-any.whl
 
   release:
     runs-on: ubuntu-latest
@@ -153,7 +150,7 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: docker-webhook-${{ needs.get-version-tag.outputs.tag }}-*
+          pattern: docker_webhook-${{ needs.get-version-tag.outputs.tag }}-*
           path: build-results
 
       - name: Create Release
