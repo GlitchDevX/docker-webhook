@@ -56,5 +56,20 @@ uv sync
 uv run fastapi dev
 ```
 
+## Commit Message Convention
+This repository uses automatic version increments for releases. 
+For this to work we need to add a prefix in the commit message depending on the size of the changes.
+
+- **#none**: v0.12.1 -> v0.12.1 (e.g. README changes)
+- **#patch**: v0.12.1 -> v0.12.2
+- **#minor**: v0.12.1 -> v0.13.0
+- **#major**: v0.12.1 -> v1.0.0
+
+Example commit message
+```
+#minor added port parameter to redeploy endpoints
+```
+
+
 ## Useful Links
 [Docker Python Lib](https://docker-py.readthedocs.io/en/stable/)
