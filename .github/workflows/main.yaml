@@ -93,9 +93,6 @@ jobs:
         run: sed -i -e 's/version = "1.0.0"/version = "${{ needs.get-version-tag.outputs.tag }}"/g' pyproject.toml
         if: ${{ !contains(matrix.platform, 'macos') }}
 
-      - name: Print pyproject
-        run: cat pyproject.toml
-
       - name: Build binary
         run: uv run pyinstaller ./docker-webhook.spec
   
