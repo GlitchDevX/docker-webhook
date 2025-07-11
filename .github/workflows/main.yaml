@@ -21,6 +21,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
           PRERELEASE: true
+          DEFAULT_BUMP: patch
+          BRANCH_HISTORY: compare
       
       - name: Echo Tag to output
         run: |
