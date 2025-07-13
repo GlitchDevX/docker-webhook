@@ -53,7 +53,7 @@ To start the API locally run
 # once to install dependencies & create venv
 uv sync
 
-uv run fastapi dev
+uv run fastapi dev src/docker_webhook/main.py
 ```
 
 ## Commit Message Convention
