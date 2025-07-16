@@ -2,7 +2,7 @@ import sys
 import uvicorn
 import multiprocessing
 
-from src.docker_webhook.app.main import app
+from docker_webhook.app.main import app
 
 def run_app():
     multiprocessing.freeze_support()  # For Windows support

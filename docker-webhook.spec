@@ -8,7 +8,7 @@ from PyInstaller.building.osx import BUNDLE
 block_cipher = None
 
 a = Analysis(
-    ['src/docker_webhook/main.py'],
+    ['docker_webhook/main.py'],
     pathex=[],
     binaries=[],
     datas=[],

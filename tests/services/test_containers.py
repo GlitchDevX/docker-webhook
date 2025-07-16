@@ -4,7 +4,7 @@ from docker.errors import NotFound
 from fastapi import HTTPException
 from fastapi.responses import StreamingResponse
 
-from src.docker_webhook.app.services.containers import get_container_logs, get_container_stats, get_containers
+from docker_webhook.app.services.containers import get_container_logs, get_container_stats, get_containers
 
 mock_container = MagicMock()
 mock_container.image.tags = ["test:1.12.4", "test:latest"]

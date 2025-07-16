@@ -6,6 +6,14 @@ This could be beneficial in an ci/cd pipeline when you don't want to share a pri
 
 ## Usage
 
+### Install Python Wheel (recommended)
+
+Download the python wheel on your server 
+
+```bash
+curl -s https://api.github.com/repos/glitchdevx/docker-webhook/releases/latest | grep -w "browser_download_url" | grep -e ".whl" | sed -E 's/.*: "(.*)"/\1/' | xargs pip install
+```
+
 ### Precompiled Binaries
 
 Download the binary on your server and execute it with the api secret in an env variable.
@@ -53,7 +61,7 @@ To start the API locally run
 # once to install dependencies & create venv
 uv sync
 
-uv run fastapi dev src/docker_webhook/main.py
+uv run fastapi dev docker_webhook/main.py
 ```
 
 ## Commit Message Convention

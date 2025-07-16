@@ -2,7 +2,7 @@ import docker
 from docker.models.containers import Container
 from fastapi.responses import StreamingResponse
 
-from src.docker_webhook.app.common.container_utils import split_tag, try_get_container
+from docker_webhook.app.common.container_utils import split_tag, try_get_container
 
 def get_containers(all: bool):
     daemon = docker.from_env()

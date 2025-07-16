@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 
-from src.docker_webhook.app.dto.requests.redeploy_container_data import RedeployContainerData
-from src.docker_webhook.app.dto.requests.redeploy_image_data import RedeployImageData
-from src.docker_webhook.app.services.redeploy import redeploy_container, redeploy_image
+from docker_webhook.app.dto.requests.redeploy_container_data import RedeployContainerData
+from docker_webhook.app.dto.requests.redeploy_image_data import RedeployImageData
+from docker_webhook.app.services.redeploy import redeploy_container, redeploy_image
 
 
 router = APIRouter(prefix="/redeploy", tags=["Redeployment"])
