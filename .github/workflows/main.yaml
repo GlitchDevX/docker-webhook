@@ -43,7 +43,7 @@ jobs:
           python-version-file: ".python-version"
 
       - name: Install dependencies
-        run: uv sync
+        run: uv sync --extra test
       
       - name: Execute tests
         run: uv run pytest
@@ -85,7 +85,7 @@ jobs:
           python-version-file: ".python-version"
 
       - name: Install dependencies
-        run: uv sync
+        run: uv sync --binary
       
       - name: Set version in pyproject (macos)
         run: sed -i '' -e 's/version = "1.0.0"/version = "${{ needs.get-version-tag.outputs.tag }}"/g' pyproject.toml

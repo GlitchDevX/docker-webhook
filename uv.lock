@@ -142,7 +142,13 @@ source = { editable = "." }
 dependencies = [
     { name = "docker" },
     { name = "fastapi", extra = ["standard"] },
+]
+
+[package.optional-dependencies]
+binary = [
     { name = "pyinstaller" },
+]
+test = [
     { name = "pytest" },
 ]
 
@@ -150,9 +156,10 @@ dependencies = [
 requires-dist = [
     { name = "docker", specifier = ">=7.1.0" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.115.13" },
-    { name = "pyinstaller", specifier = ">=6.14.1" },
-    { name = "pytest", specifier = ">=8.4.1" },
+    { name = "pyinstaller", marker = "extra == 'binary'", specifier = ">=6.14.1" },
+    { name = "pytest", marker = "extra == 'test'", specifier = ">=8.4.1" },
 ]
+provides-extras = ["test", "binary"]
 
 [[package]]
 name = "email-validator"
