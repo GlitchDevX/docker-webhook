@@ -26,6 +26,9 @@ curl -s https://api.github.com/repos/glitchdevx/docker-webhook/releases/latest |
 # set secret in env var
 export API_SECRET=your-secure-secret
 
+# allow execution
+sudo chmod +x ./docker-webhook
+
 # run the application
 ./docker-webhook
 ```
