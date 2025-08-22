@@ -11,7 +11,7 @@ This could be beneficial in an ci/cd pipeline when you don't want to share a pri
 Download the python wheel on your server 
 
 ```bash
-pip install https://github.com/glitchdevx/docker-webhook/releases/latest/download/docker_webhook-0.12.14-py3-none-any.whl
+curl -s https://api.github.com/repos/glitchdevx/docker-webhook/releases/latest | grep -w "browser_download_url" | grep -e ".whl" | sed -E 's/.*: "(.*)"/\1/' | xargs pip install
 ```
 
 ### Precompiled Binaries
